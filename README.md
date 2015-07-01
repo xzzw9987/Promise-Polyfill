@@ -27,5 +27,5 @@ Promise Polyfill
     console.log(resolveValue);
   })
 ```
-@todo
-Implemnt Fail Condition
+@todo <br>
+Implement Fail Condition
