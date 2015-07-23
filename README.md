@@ -26,6 +26,11 @@ Promise Polyfill
     // console.log('New Promise');
     console.log(resolveValue);
   })
+  .catch(function(){
+  /**
+  Do something
+  **/
+  });
 ```
-@todo <br>
-Implement Fail Condition
+**Not implement Promise.defer() & Promise.defer().promise ,**
+**Method like resolve, reject bind on P directly**
