@@ -1,79 +1,68 @@
-
+/**
+ * @Author XinZhongZhu
+ */
 (function () {
     window.P = P;
-
     function P(foo) {
         var me = this;
-        this.success = [];
-        this.fail = [];
+        var funcs = ['resolve', 'reject'].map(function (funcName) {
+            return function (val) {
+                setTimeout(function () {
+                    if (funcName === 'reject')
+                        console.error('Promise is rejected, reject value is' + val);
+                    me.state = funcName;
+                    me.promiseValue = val;
+                    _pushDefferList.call(me, null, me[funcName + 'List']);
+                }, 0);
+            }
+        });
+        this.resolveList = [];
+        this.rejectList = [];
         this.state = 'pending';
-        this.resolve = resolve;
-        this.reject = reject;
-        function resolve(val) {
-            setTimeout(function () {
-                me.state = 'resolve';
-                me.promiseValue = val;
-                while (me.success.length) {
-                    var f = me.success.shift();
-                    f(val);
-                }
-            }, 0);
-        }
-
-        function reject(val) {
-            setTimeout(function () {
-                me.state = 'reject';
-                me.rejectValue = val;
-                while (me.fail.length) {
-                    var f = me.fail.shift();
-                    f(val);
-                }
-
-            }, 0);
-        }
-
-        foo(resolve, reject);
+        this.resolve = funcs[0];
+        this.reject = funcs[1];
+        foo(this.resolve, this.reject);
     }
 
     P.prototype = {
         constructor: P,
-        then: function (success, reject) {
-            var s, j;
+        catch: function (callback) {
+            return this.then(null, callback);
+        },
+        then: function (whenResolve, whenReject) {
+            var s, j, me = this;
             var ret = new P(function (res, rej) {
                 s = res;
                 j = rej;
             });
-            _pushSuccess.call(this, function (val) {
-                var v = success(val);
-                if (v instanceof P) {
-                    v.then(function (val) {
-                        ret.resolve(val);
-                    }, function () {
-                    });
-                }
-                else {
-                    s && s(v);
-                }
-            });
-            /*
-             @todo
-             replace like _pushFail
-             */
-            this.fail.push(function (val) {
-                j && j(val);
-                reject(val);
+            // Push to corresponding callback list
+            ['resolve', 'reject'].forEach(function (func) {
+                var f = (func === 'resolve') ? whenResolve : whenReject;
+                var w = (func === 'resolve') ? s : j;
+                _pushDefferList.call(me, function (val) {
+                    var v = f && f(val);
+                    if (v instanceof P) {
+                        v.then(function (val) {
+                            // Resolve at outside
+                            ret.resolve(val);
+                        }, function () {
+                            // Reject at outside
+                            ret.reject(val);
+                        });
+                    }
+                    else {
+                        w && w(v);
+                    }
+                }, me[func + 'List']);
             });
             return ret;
         }
     };
-
-    function _pushSuccess(foo) {
-        var success = this.success;
-        success.push(foo);
-        if (this.state === 'resolve') {
-            while (success.length) {
-                var f = success.shift();
-                f(this.promiseValue);
+    function _pushDefferList(foo, list) {
+        foo && list.push(foo);
+        if (this.state !== 'pending') {
+            while (list.length) {
+                list.shift()(this.promiseValue);
             }
         }
     }
