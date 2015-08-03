@@ -1,4 +1,5 @@
 # promise-polyfill
+[![Build Status](https://travis-ci.org/xzzw9987/Promise-Polyfill.svg)](https://travis-ci.org/xzzw9987/Promise-Polyfill)  
 Promise Polyfill
 ###How To Use ?
 ```javascript
