@@ -1,4 +1,5 @@
 # promise-polyfill
+[![Build Status](https://travis-ci.org/xzzw9987/Promise-Polyfill.svg)](https://travis-ci.org/xzzw9987/Promise-Polyfill)  
 Promise Polyfill
 ###How To Use ?
 ```javascript
@@ -26,6 +27,11 @@ Promise Polyfill
     // console.log('New Promise');
     console.log(resolveValue);
   })
+  .catch(function(){
+  /**
+  Do something
+  **/
+  });
 ```
-@todo <br>
-Implement Fail Condition
+**Not implement Promise.defer() & Promise.defer().promise ,**
+**Method like resolve, reject bind on P directly**
