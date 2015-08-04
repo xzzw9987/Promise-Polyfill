@@ -1,0 +1,22 @@
+{
+  "name": "promise-polyfill",
+  "version": "1.0.0",
+  "description": "a promise polyfill by xinzhongzhu",
+  "main": "promise-polyfill.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xzzw9987/Promise-Polyfill.git"
+  },
+  "keywords": [
+    "promise"
+  ],
+  "author": "xinzhongzhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xzzw9987/Promise-Polyfill/issues"
+  },
+  "homepage": "https://github.com/xzzw9987/Promise-Polyfill#readme"
+}

@@ -1,15 +1,27 @@
+
 /**
  * @Author XinZhongZhu
  */
-(function () {
-    window.P = P;
+(function (global) {
+    'use strict';
+    // UMD
+    if (typeof define === 'function' && define.amd) {
+        define(function (require, exports, module) {
+            module.exports = P;
+        });
+    }
+    else if (typeof module.exports !== 'undefined') {
+        module.exports = P;
+    }
+    else {
+        global.P = P;
+    }    
+    
     function P(foo) {
         var me = this;
         var funcs = ['resolve', 'reject'].map(function (funcName) {
             return function (val) {
                 setTimeout(function () {
-                    if (funcName === 'reject')
-                        console.error('Promise is rejected, reject value is' + val);
                     me.state = funcName;
                     me.promiseValue = val;
                     _pushDefferList.call(me, null, me[funcName + 'List']);
@@ -45,7 +57,7 @@
                         v.then(function (val) {
                             // Resolve at outside
                             ret.resolve(val);
-                        }, function () {
+                        }, function (val) {
                             // Reject at outside
                             ret.reject(val);
                         });
@@ -66,4 +78,4 @@
             }
         }
     }
-})();
+})(this);
