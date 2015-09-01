@@ -10,7 +10,7 @@
             module.exports = P;
         });
     }
-    else if (module && typeof module.exports !== 'undefined') {
+    else if (module && (typeof module.exports !== 'undefined')) {
         module.exports = P;
     }
     else {
