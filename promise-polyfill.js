@@ -14,14 +14,13 @@
         global.P = P;
     }
 
-
     function P(foo) {
         var me = this;
         var funcs = ['resolve', 'reject'].map(function (funcName) {
             return function (val) {
                 setTimeout(function () {
                     if (funcName === 'reject')
-                        console.error('Promise is rejected, reject value is' + val);
+                        console.error('Promise is rejected, reject value is ' + val);
                     me.state = funcName;
                     me.promiseValue = val;
                     _pushDefferList.call(me, null, me[funcName + 'List']);
@@ -55,15 +54,14 @@
                     var v = f && f(val);
                     if (v instanceof P) {
                         v.then(function (val) {
-                            // Resolve at outside
                             ret.resolve(val);
                         }, function (val) {
-                            // Reject at outside
                             ret.reject(val);
                         });
                     }
                     else {
-                        w && w(v);
+                        func === 'reject' && w && w(val);
+                        func === 'resolve' && w && w(v);
                     }
                 }, me[func + 'List']);
             });
