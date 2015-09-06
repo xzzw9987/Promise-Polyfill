@@ -3,6 +3,7 @@ var P = require('../promise-polyfill');
 var firstResolveVal = 'a';
 var secondResolveVal = 'b';
 var thirdRejectVal = 'c';
+console.log(P);
 var promise = new P(function (resolve, reject) {
     resolve(firstResolveVal);
 });

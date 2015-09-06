@@ -7,8 +7,8 @@
             module.exports = P;
         });
     }
-    else if (global.module && (typeof global.module.exports !== 'undefined')) {
-        global.module.exports = P;
+    else if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = P;
     }
     else {
         global.P = P;
