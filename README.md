@@ -1,7 +1,7 @@
 # promise-polyfill
 [![Build Status](https://travis-ci.org/xzzw9987/Promise-Polyfill.svg)](https://travis-ci.org/xzzw9987/Promise-Polyfill)  
 Promise Polyfill
-###How To Use ?
+### How To Use ?
 ```javascript
   var promise = new P(function(resolve, reject){
     setTimeout(function() {
